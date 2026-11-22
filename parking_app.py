@@ -11,17 +11,14 @@ def get_parking_hours():
     while True:
         entered_hours = input("Enter the number of hours parked: ").strip()
         try:
-            # Decimal provides accurate arithmetic for currency calculations.
             hours = Decimal(entered_hours)
 
-            # Parking time must be greater than zero.
-            if hours <= 0:
-                print("Please enter a number greater than zero.")
+            if not hours.is_finite() or hours <= 0:
+                print("Please enter a finite number greater than zero.")
                 continue
 
             return hours
         except InvalidOperation:
-            # Explain the problem and allow the customer to try again.
             print("Invalid input. Enter a number, such as 2 or 1.5.")
 
 
@@ -42,19 +39,16 @@ def display_parking_summary(hours, hourly_rate, total_cost):
 
 def main():
     """Start and control the parking application."""
-    # The client specified a fixed parking charge of £2 per hour.
     parking_rate = Decimal("2.00")
 
     print("=====================================")
     print("         WELCOME TO PARKING APP")
     print("=====================================")
 
-    # Collect input, calculate the charge, then display the result.
     hours_parked = get_parking_hours()
     total_cost = calculate_parking_cost(hours_parked, parking_rate)
     display_parking_summary(hours_parked, parking_rate, total_cost)
 
 
-# Run main() only when this file is launched as the program.
 if __name__ == "__main__":
     main()
